@@ -94,12 +94,26 @@ The model is implemented in PyTorch and trained on RTX 4090 GPU.
 
 ---
 
+### 📌 Baseline Model. 
+The baseline model (M0), which only
+includes full-body feature extraction (Base) without any
+additional modules, achieved 66.82% Rank-1 accuracy in
+the SYSU-MM01 all-search mode and 70.34% in indoor-
+search. On the RegDB dataset, it scored 78.41% Rank-1
+accuracy in the Thermal-to-Visible mode and 80.78% in the
+Visible-to-Thermal mode. These results indicate that us-
+ing whole-body features alone limits the model’s ability to
+handle cross-modality discrepancies, particularly under oc-
+clusion and varying illumination.
+
+
+
 ## 4.2 Ablation Study
 
 <div style="width: 90%; margin: 0 auto; text-align: justify;">
 
 <p align="center">
-  <img src="assets/Ablation_study.jpg" style="width:100%;">
+  <img src="assets/Ablation_study.png" style="width:100%;">
 </p>
 
 <b>Table 1.</b> Ablation study results showing the impact of different components (UBF, IMDAL, and IDAL) on Rank-1 accuracy (R-1), mean Average Precision (mAP), and mean Inverse Negative Penalty (mINP) across SYSU-MM01 and RegDB datasets.
@@ -120,19 +134,11 @@ The model is implemented in PyTorch and trained on RTX 4090 GPU.
 
 ### 🔹 Effect of Upper Body Feature Extraction (UBF)
 
-<p align="center">
-  <img src="assets/ubf_curve.jpg" width="80%">
-</p>
-
 UBF significantly improves performance by capturing fine-grained upper-body cues such as head, shoulders, and torso, improving robustness under occlusion and pose variation.
 
 ---
 
 ### 🔹 Effect of IMDAL / IDAL
-
-<p align="center">
-  <img src="assets/mmd_loss_curve.jpg" width="80%">
-</p>
 
 IMDAL reduces intra-modality distribution variance, while IDAL aligns cross-modality distributions, improving feature consistency and generalization.
 
@@ -140,20 +146,16 @@ IMDAL reduces intra-modality distribution variance, while IDAL aligns cross-moda
 
 ## 4.3 Effect of Loss Weights
 
----
+<div style="width: 90%; margin: 0 auto; text-align: justify;">
 
 <p align="center">
-  <img src="assets/loss_weight.jpg" width="80%">
+  <img src="assets/Impact of Upper Body Proportion.png" style="width:70%;">
 </p>
 
-The optimal MMD weighting differs across datasets:
+<b>Table 2.</b> Results with different intra-modality and inter-modality loss weights on SYSU-MM01 and RegDB datasets. The optimal weight setting varies across datasets due to different modality gaps: SYSU requires a balanced setting (0.4 / 0.6), while RegDB benefits from stronger inter-modality alignment (0.8).
 
-- SYSU-MM01: best at (0.4 intra / 0.6 inter)
-- RegDB: best at stronger inter-modality alignment (0.8)
+</div>
 
-This reflects different modality gaps between datasets.
-
----
 
 ## 4.4 Effect of Upper-Body Proportion
 
