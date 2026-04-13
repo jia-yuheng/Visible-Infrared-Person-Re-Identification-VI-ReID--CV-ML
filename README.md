@@ -30,71 +30,20 @@ On SYSU-MM01, AMINet achieves **74.75% Rank-1 accuracy**, outperforming the base
 
 
 
-## Method
-
-We propose a hierarchical dual-branch framework for cross-modality feature learning:
-
-### 1. HMG-DBNet (Hierarchical Multi-Granular Dual-Branch Network)
-- Processes **full-body and upper-body images separately**
-- Captures both **global semantic information** and **fine-grained local details**
-- Improves robustness to occlusion and background clutter
-
-### 2. IFFS (Interactive Feature Fusion Strategy)
-- Combines **intra-modality fusion** with **cross-modality alignment**
-- Enables deeper interaction between RGB and IR features
-- Produces more discriminative and modality-invariant representations
-
-### 3. PESAM (Phase-Enhanced Structural Attention Module)
-- Uses **phase congruency** for illumination-invariant feature extraction
-- Applies **edge-guided attention** to focus on key structural regions
-
-### 4. AMK-MMD (Adaptive Multi-Scale Kernel MMD)
-- Extends traditional MMD with **multi-scale Gaussian kernels**
-- Introduces **adaptive bandwidth and learnable weights**
-- Improves alignment across complex feature distributions
-
-## Key Contributions
-
-- A dual-branch multi-granularity framework (HMG-DBNet) for robust VI-ReID
-- Interactive Feature Fusion Strategy (IFFS) for joint intra- and cross-modality alignment
-- Phase-based structural attention (PESAM) for illumination-invariant representation
-- Adaptive multi-scale MMD (AMK-MMD) for flexible and scalable feature alignment
-
-
-
-
-
-
 # 4. Experiments
-
----
 
 ## 4.1 Experimental Setups
 
 We evaluate the proposed method on two standard VI-ReID benchmarks: **SYSU-MM01** and **RegDB**, using **CMC, mAP, and mINP** as evaluation metrics.
 
-### 📌 Datasets
-
+### Datasets
 - **SYSU-MM01**: 491 identities from 6 cameras (4 RGB + 2 IR). Evaluation includes all-search and indoor-search settings.
 - **RegDB**: 412 identities with RGB-IR pairs, evaluated under both Visible→Thermal and Thermal→Visible modes.
 
-### ⚙️ Implementation Details
+### Implementation Details
+The model is implemented in PyTorch and trained on an RTX 4090 GPU. The input resolution is set to 388×144 for the global branch and 194×144 for the part branch. The model is trained for 80 epochs with a batch size of 64. Optimization is performed using SGD with momentum 0.9 and weight decay 5e-4, and the learning rate follows a staged schedule (0.01 → 0.1 → 0.001).
 
-The model is implemented in PyTorch and trained on RTX 4090 GPU.
-
-- Input size:
-  - Global branch: 388 × 144  
-  - Part branch: 194 × 144  
-
-- Training settings:
-  - Epochs: 80  
-  - Batch size: 64  
-  - Optimizer: SGD (momentum 0.9, weight decay 5e-4)  
-  - Learning rate: staged schedule (0.01 → 0.1 → 0.001)
-
----
-
-### 📌 Baseline Model. 
+###  Baseline Model. 
 The baseline model (M0), which only
 includes full-body feature extraction (Base) without any
 additional modules, achieved 66.82% Rank-1 accuracy in
@@ -194,130 +143,27 @@ The results in Fig. 2 show that cross-modality Re-ID performance is highly sensi
 
 
 
+## 4.6. t-SNE Visualizations & Feature Distance Distributions
+<div style="width: 90%; margin: 0 auto; text-align: justify;">
 
+<p align="center">
+  <img src="assets/t-SNE_&_feature_distance.jpg" style="width:100%;">
+</p>
 
+<b>Figure 4.</b> t-SNE visualizations and feature distance distributions for different models, demonstrating cross-modality feature alignment and intra-/inter-class separability.
 
+<b>t-SNE Visualization.</b> The t-SNE results demonstrate the evolution of feature embedding space across different models. The initial model shows clearly separated RGB and IR clusters with significant identity dispersion, indicating severe cross-modality misalignment. The baseline model improves clustering structure but still exhibits partial modality inconsistency. In contrast, AMINet produces compact and well-overlapped RGB-IR identity clusters, demonstrating strong cross-modality feature alignment and improved identity discriminability.
 
 
+<b>Feature Distance Distributions.</b> The feature distance analysis further validates this improvement quantitatively. The initial model shows strong overlap between intra-class and inter-class distributions with a small margin (<b>0.26</b>), indicating weak feature separability. The baseline model reduces this overlap and improves class separation. Our full model achieves a significantly larger margin (<b>0.56</b>), with well-separated distributions and minimal overlap, reflecting stronger intra-class compactness and inter-class separability.
 
 
+</div>
 
 
 
 
 
-
-
-
-
-
-
-
-### Multi-Granular Feature Extraction
-
-HMG-DBNet adopts a dual-branch architecture to process **full-body** and **half-body** images from both RGB and IR modalities.
-
-- The **global branch** captures high-level semantic information (e.g., body shape and overall appearance)
-- The **part branch** focuses on fine-grained local details (e.g., clothing texture and upper-body structure)
-
-These features are hierarchically fused to form a unified identity representation, followed by **Generalized Mean Pooling (GeM)** for compact and robust embedding.
-
-**Training Objectives:**
-- Identity Loss
-- Triplet Loss
-- MMD Loss (for cross-modality alignment)
-
-
-
-
-
-
-
-
-
-### Interactive Feature Fusion Strategy (IFFS)
-
-IFFS enhances feature representation by combining:
-
-#### 1. Intra-Modality Fusion
-- Fuses **global and part-based features within each modality**
-- Improves discriminative capability by integrating:
-  - global structure
-  - local identity cues
-
-#### 2. Cross-Modality Fusion
-- Aligns RGB and IR features by **cross-granularity interaction**
-- Combines:
-  - RGB global features with IR local features
-  - IR global features with RGB local features
-
-This design leverages complementary information across modalities, effectively reducing the RGB-IR feature gap and improving generalization.
-
-
-
-
-
-
-
-
-### Interactive Feature Fusion Strategy (IFFS)
-
-IFFS enhances feature representation by combining:
-
-#### 1. Intra-Modality Fusion
-- Fuses **global and part-based features within each modality**
-- Improves discriminative capability by integrating:
-  - global structure
-  - local identity cues
-
-#### 2. Cross-Modality Fusion
-- Aligns RGB and IR features by **cross-granularity interaction**
-- Combines:
-  - RGB global features with IR local features
-  - IR global features with RGB local features
-
-This design leverages complementary information across modalities, effectively reducing the RGB-IR feature gap and improving generalization.
-
-
-
-
-
-
-
-### Adaptive Multi-Scale Kernel MMD (AMK-MMD)
-
-To address complex distribution discrepancies between RGB and IR features, we extend traditional MMD with:
-
-- **Multi-scale Gaussian kernels**
-- **Adaptive bandwidth selection**
-- **Learnable kernel weights**
-
-This allows the model to capture both coarse and fine-grained distribution differences across modalities.
-
-Efficient implementation using **batch processing and vectorized computation** ensures scalability for large datasets.
-
-
-
-
-
-
-
-
-### Phase-Enhanced Structural Attention Module (PESAM)
-
-PESAM introduces **phase congruency** to extract illumination-invariant structural features across RGB and IR images.
-
-- Captures stable features such as **edges and contours**
-- Robust to lighting and contrast variations
-
-An **Edge-Guided Attention Mechanism (EGAM)** further enhances feature learning by focusing on structurally important regions.
-
-An adaptive weighting scheme combines:
-- RGB features
-- IR features
-- Phase-based structural features
-
-to produce a balanced and robust final representation.
 
 
 
