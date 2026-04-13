@@ -147,7 +147,7 @@ clusion and varying illumination.
 <div style="width: 90%; margin: 0 auto; text-align: justify;">
 
 <p align="center">
-  <img src="assets/Impact of Upper Body Proportion.png" style="width:60%;">
+  <img src="assets/Impact of Upper Body Proportion.png" style="width:55%;">
 </p>
 
 <b>Figure 2.</b> Impact of Upper Body Proportion (UBP) on model accuracy for SYSU-MM01 (left) and RegDB (right) datasets.  
@@ -159,12 +159,36 @@ The results in Fig. 2 show that cross-modality Re-ID performance is highly sensi
 
 
 
+## 4.5. State-of-the-Art Performance Comparison
+
+### Evaluation on SYSU-MM01. 
+
+<div style="width: 100%; margin: 0 auto; text-align: justify;">
+
+<p align="center">
+  <img src="assets/Performance comparisons on SYSU-MM01.png" style="width:100%;">
+</p>
+
+<b>Table 4.</b> Performance comparisons on the SYSU-MM01 dataset under both All Search and Indoor Search settings. Our method (AMINet) consistently outperforms existing state-of-the-art approaches across all evaluation metrics, including Rank-1, mAP, and mINP.
+
+<b>Conclusion.</b> AMINet achieves strong and consistent improvements on SYSU-MM01, reaching 74.75% Rank-1 and 66.11% mAP in All Search, and 79.18% Rank-1 in Indoor Search. These results demonstrate superior RGB-IR feature alignment and robustness under both challenging and controlled environments.
+
+</div>
 
 
+### Evaluation on RegDB.
 
+<div style="width: 60%; margin: 0 auto; text-align: justify;">
 
+<p align="center">
+  <img src="assets/Performance comparisons on the RegDB.png" style="width:58%;">
+</p>
 
+<b>Table 3.</b> Performance comparisons on the RegDB dataset under both Thermal-to-Visible and Visible-to-Thermal evaluation settings.
 
+<b>Conclusion.</b> AMINet achieves state-of-the-art performance on RegDB, reaching 89.51% Rank-1 (Thermal-to-Visible) and 91.29% Rank-1 (Visible-to-Thermal). The results demonstrate strong cross-modality alignment capability and effective RGB-IR feature fusion under different sensing conditions.
+
+</div>
 
 
 
