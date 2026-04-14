@@ -127,7 +127,7 @@ Initial model shows overlap with margin **0.26**. Baseline improves separation. 
 <div style="width: 90%; margin: 0 auto; text-align: justify;">
 
 <p align="center">
-  <img src="assets/4row_4_visual plot.jpg" style="width:100%;">
+  <img src="assets/Retrieval_Visualization_Results.jpg" style="width:100%;">
 </p>
 
 <b>Figure.</b> This figure presents eight (two sets) randomly selected query instances from the SYSU-MM01 dataset, along with their corresponding top ten (Rank-10) retrieval results. The retrieval results are illustrated under two distinct query modalities: visible-to-infrared and infrared-to-visible. Correct matches are indicated by green bounding boxes, while incorrect matches are highlighted in red bounding boxes. The ID and the predicted similarity scores are shown above each image pair.
